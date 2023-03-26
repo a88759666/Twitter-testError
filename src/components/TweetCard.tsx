@@ -1,7 +1,7 @@
 import {LikeIcon, ReplyIcon} from "assets/images/index"
 
 
-export const UserImage = (props: {avatar: string}) => {
+export const UserImage = (props: {avatar?: string}) => {
   const {avatar} = props
   return (
     <img src={avatar} alt="user" className="w-[50px] h-[50px] rounded-full"/>
@@ -9,13 +9,13 @@ export const UserImage = (props: {avatar: string}) => {
 }
 
 const TweetCard = (props: {
-  userName:string, 
-  account:string, 
-  postTime:string, 
-  tweet:string, 
-  likeCount:number, 
-  replyCount:number,
-  avatar:string,
+  userName?:string, 
+  account?:string, 
+  postTime?:string, 
+  tweet?:string, 
+  likeCount?:number, 
+  replyCount?:number,
+  avatar?:string,
   handleReplyModal?: () => void
 }) => {
     const { userName,account,postTime,tweet, likeCount, replyCount, avatar, handleReplyModal } = props
