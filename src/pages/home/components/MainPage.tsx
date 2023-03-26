@@ -1,8 +1,10 @@
+import { getUserTweet } from "api/Tweet";
 import { SubmitBtn } from "components/AuthInput";
 import Modal from "components/Modal";
 import TweetCard, { UserImage } from "components/TweetCard";
 import { useTweetContext } from "contexts/TweetContextProvider";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Tweet } from "type";
 
 const PostTweet = () => {
   const [ show, setShow ] = useState(false)
@@ -39,8 +41,7 @@ const PostTweet = () => {
 }
 
 const MainPage = () => {
-
-  const {dummydata} = useTweetContext()
+  const [ tweets, setTweets ] = useState<Tweet[]>([])
   const [ show, setShow ] = useState(false)
   function handleClose() {
     setShow(false)
@@ -48,22 +49,33 @@ const MainPage = () => {
   function handleReplyModal() {
     setShow(!show)
   }
+  async function getTweetsAsync() {
+    try {
+      const tweets = await getUserTweet()
+      if (tweets) {
+        setTweets(tweets)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
+  useEffect(() => {
+    getTweetsAsync()
+  },[])
   return (
       <main className="basis-5/7 border-x ">
         <h4 className="pl-7 py-6 leading-[26px] font-bold border-b">首頁</h4>
         <PostTweet />
         <div>
-          {dummydata.map(item => {
+          {tweets.map(tweet => {
             return(
               <TweetCard 
-                userName={item.userName} 
-                account={item.account} 
-                postTime={item.postTime}
-                tweet={item.tweet}
-                likeCount={item.likeCount}
-                replyCount={item.replyCount}
-                avatar={item.avatar}
+                key={tweet.id}
+                postTime={tweet.createdAt}
+                tweet={tweet.description}
+                likeCount={tweet.likeNum}
+                replyCount={tweet.replyNum}
                 handleReplyModal={handleReplyModal}
               /> 
             )
@@ -82,3 +94,4 @@ const MainPage = () => {
 };
 
 export default MainPage;
+
