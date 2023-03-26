@@ -2,7 +2,6 @@ import { getUserTweet } from "api/Tweet";
 import { SubmitBtn } from "components/AuthInput";
 import Modal from "components/Modal";
 import TweetCard, { UserImage } from "components/TweetCard";
-import { useTweetContext } from "contexts/TweetContextProvider";
 import { useEffect, useState } from "react";
 import { Tweet } from "type";
 
